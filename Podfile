@@ -8,4 +8,5 @@ target 'ServerCommunicationDemo' do
 pod 'Alamofire'
 pod 'NVActivityIndicatorView'
 pod 'SwiftyJSON'
+ pod 'Kingfisher', '~> 3.0'
 end

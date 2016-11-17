@@ -73,6 +73,7 @@ marginally far upon excluding.</string>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="coverImageView" destination="N10-SN-wul" id="m2m-9K-uhA"/>
                                     <outlet property="descriptionLabel" destination="9g4-Bt-Ki5" id="iDQ-rl-CkI"/>
                                     <outlet property="titleLabel" destination="9nE-Yg-CHx" id="Kfd-6n-g8G"/>
                                 </connections>
@@ -85,6 +86,9 @@ marginally far upon excluding.</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Home" id="fbx-eZ-nTu"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="wdt-zG-O1y">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <segue destination="Kpe-yR-7A7" kind="show" identifier="showDetail" id="twz-DG-iRf"/>
                     </connections>

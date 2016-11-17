@@ -9,8 +9,10 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import NVActivityIndicatorView
+import Kingfisher
 
-class HomeTableViewController: UITableViewController {
+class HomeTableViewController: UITableViewController, NVActivityIndicatorViewable {
     
     // Property
     var books : [JSON]! = [JSON]()
@@ -19,9 +21,26 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Register XIB Class
+        
+        let nib = UINib(nibName: "TableViewSectionHeader", bundle: nil)
+        tableView.register(nib, forHeaderFooterViewReuseIdentifier: "TableSectionHeader")
+        
+        self.refreshControl?.addTarget(self, action: #selector(self.handleRefresh(refreshControl:)), for: UIControlEvents.valueChanged)
+        
+        getData()
+    }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // get default data
+        getData()
     }
     
     func getData() {
+        // Create NVActivityIndicator
+        startAnimating(message: "Loading", type: NVActivityIndicatorType.ballBeat)
+        
+        
         //#1
         Alamofire.request("http://fakerestapi.azurewebsites.net/api/Books").responseJSON { (response) in
             
@@ -44,6 +63,8 @@ class HomeTableViewController: UITableViewController {
                                 let authorObject = JSON(data: authorData)
                                 self.authors = authorObject.array
                                 self.tableView.reloadData()
+                                self.stopAnimating()
+                                self.refreshControl?.endRefreshing()
                             }
                         })
                     }
@@ -68,11 +89,11 @@ class HomeTableViewController: UITableViewController {
 extension HomeTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.books.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.books.count
+        return 1
     }
     
     
@@ -80,11 +101,43 @@ extension HomeTableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
         // Configure the cell...
         
-        let book = self.books[indexPath.row]
+        let book = self.books[indexPath.section]
+        let coverPhoto = self.coverPhotos[indexPath.section]
         
         cell.titleLabel.text = book["Title"].stringValue
         cell.descriptionLabel.text = book["Description"].stringValue
+        
+      //  cell.coverImageView.image = UIImage(data: try! Data(contentsOf: URL(string: coverPhoto["Url"].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!))
+        
+        let url = URL(string: coverPhoto["Url"].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        
+        let placeHolderImage = UIImage(named: "google_logo")
+        
+        cell.coverImageView.kf.setImage(with: url, placeholder: placeHolderImage)
+       
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableSectionHeader") as! TableViewSectionHeader
+        
+        header.titleLabel.text = authors[section]["FirstName"].stringValue
+       
+        // load profile image
+        let coverPhoto = self.coverPhotos[section]
+        
+        let url = URL(string: coverPhoto["Url"].stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        
+        let placeHolderImage = UIImage(named: "google_logo")
+        
+        header.profileImageView.kf.setImage(with: url, placeholder: placeHolderImage)
+        
+        return header
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
     
     
