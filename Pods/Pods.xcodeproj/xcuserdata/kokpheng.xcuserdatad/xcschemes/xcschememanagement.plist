@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>NVActivityIndicatorView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-ServerCommunicationDemo.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>070374204E491EF7E794313D14C6950B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6D55EECC714A72F1A0A8BEC0804F8019</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>84FD166F21B480952114A4E43919D17E</key>
+		<key>7ECA453B42FB28367F031AA98450FFDB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

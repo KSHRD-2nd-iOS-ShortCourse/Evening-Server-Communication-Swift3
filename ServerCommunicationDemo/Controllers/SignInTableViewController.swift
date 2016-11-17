@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import NVActivityIndicatorView
 
 class SignInTableViewController: UITableViewController {
     
@@ -59,10 +60,10 @@ extension SignInTableViewController {
                     // let vc = storyboard.instantiateInitialViewController()
                     
                     // Create view controller object by ViewController Identifier
-                    let vc = storyboard.instantiateViewController(withIdentifier: "screenA")
+                    let vc = storyboard.instantiateInitialViewController()
                     
                     // open view controller
-                    self.present(vc, animated: true, completion: nil)
+                    self.present(vc!, animated: true, completion: nil)
                 }
         }
     }

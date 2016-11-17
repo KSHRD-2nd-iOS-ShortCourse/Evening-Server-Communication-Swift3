@@ -5,6 +5,7 @@ target 'ServerCommunicationDemo' do
   use_frameworks!
 
   # Pods for ServerCommunicationDemo
- pod 'Alamofire'
-
+pod 'Alamofire'
+pod 'NVActivityIndicatorView'
+pod 'SwiftyJSON'
 end

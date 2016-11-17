@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gta-i3-KEm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="902-G7-mXl">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home Table View Controller-->
+        <!--Home-->
         <scene sceneID="ofd-sc-Avh">
             <objects>
                 <tableViewController id="bsM-PS-hCI" customClass="HomeTableViewController" customModule="ServerCommunicationDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,14 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="Lp0-Ue-HbU">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.42747049370000001" green="0.44456327449999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="homeCell" rowHeight="365" id="HIJ-3a-2F1" customClass="HomeTableViewCell" customModule="ServerCommunicationDemo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="48" width="320" height="365"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="365"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HIJ-3a-2F1" id="9d3-Gi-XyS">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="365"/>
@@ -78,6 +73,7 @@ marginally far upon excluding.</string>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="descriptionLabel" destination="9g4-Bt-Ki5" id="iDQ-rl-CkI"/>
                                     <outlet property="titleLabel" destination="9nE-Yg-CHx" id="Kfd-6n-g8G"/>
                                 </connections>
                             </tableViewCell>
@@ -88,24 +84,25 @@ marginally far upon excluding.</string>
                             <outlet property="delegate" destination="bsM-PS-hCI" id="Z01-XV-cJd"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Home" id="fbx-eZ-nTu"/>
                     <connections>
                         <segue destination="Kpe-yR-7A7" kind="show" identifier="showDetail" id="twz-DG-iRf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgq-7T-fBt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="113" y="210"/>
+            <point key="canvasLocation" x="1110" y="209.1549295774648"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="WHX-mY-dHE">
             <objects>
-                <tableViewController storyboardIdentifier="screenA" id="Kpe-yR-7A7" sceneMemberID="viewController">
+                <tableViewController id="Kpe-yR-7A7" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="IdZ-Sn-yIg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="Dup-gP-qD5">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="200"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Img" translatesAutoresizingMaskIntoConstraints="NO" id="tUJ-u7-EMJ">
@@ -190,7 +187,7 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JH5-3G-6ye" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="808" y="209"/>
+            <point key="canvasLocation" x="1894" y="209"/>
         </scene>
         <!--SIGN UP-->
         <scene sceneID="9yx-HS-SyS">
@@ -289,7 +286,30 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hye-OQ-gmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1599" y="209"/>
+            <point key="canvasLocation" x="2595" y="208.09859154929578"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="kk9-fi-yca">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="902-G7-mXl" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Mhf-31-8pF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.33021444080000001" green="0.35786518449999999" blue="0.75858420130000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bsM-PS-hCI" kind="relationship" relationship="rootViewController" id="6Q4-bb-1CK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kq6-Hl-3NF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="112.5" y="209.1549295774648"/>
         </scene>
     </scenes>
     <resources>
