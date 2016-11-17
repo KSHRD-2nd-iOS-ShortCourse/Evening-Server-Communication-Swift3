@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class HomeTableViewController: UITableViewController {
-
+    
     // Property
     var books : [JSON]! = [JSON]()
     var coverPhotos : [JSON]! = [JSON]()
@@ -19,25 +19,48 @@ class HomeTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    func getData() {
+        //#1
         Alamofire.request("http://fakerestapi.azurewebsites.net/api/Books").responseJSON { (response) in
+            
             if let data = response.data {
                 // JSON Results
                 let jsonObject = JSON(data: data)
                 self.books = jsonObject.array
-                self.tableView.reloadData()
+                
+                //#2
+                Alamofire.request("http://fakerestapi.azurewebsites.net/api/CoverPhotos").responseJSON(completionHandler: { (response) in
+                    if let bookCoverData = response.data{
+                        // JSON Results
+                        let bookCoverObject = JSON(data: bookCoverData)
+                        self.coverPhotos = bookCoverObject.array
+                        
+                        //#3
+                        Alamofire.request("http://fakerestapi.azurewebsites.net/api/Authors").responseJSON(completionHandler: { (response) in
+                            if let authorData = response.data{
+                                // JSON Results
+                                let authorObject = JSON(data: authorData)
+                                self.authors = authorObject.array
+                                self.tableView.reloadData()
+                            }
+                        })
+                    }
+                })
             }
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }
 
 
@@ -53,16 +76,16 @@ extension HomeTableViewController {
     }
     
     
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
-     // Configure the cell...
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
+        // Configure the cell...
         
         let book = self.books[indexPath.row]
         
         cell.titleLabel.text = book["Title"].stringValue
         cell.descriptionLabel.text = book["Description"].stringValue
-     return cell
-     }
+        return cell
+    }
     
     
     /*
