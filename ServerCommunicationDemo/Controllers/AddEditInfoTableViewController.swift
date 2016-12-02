@@ -7,89 +7,113 @@
 //
 
 import UIKit
+import Alamofire
+import  NVActivityIndicatorView
 
-class AddEditInfoTableViewController: UITableViewController {
-    @IBOutlet var label : UILabel!
-    var text : String = ""
+class AddEditInfoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable {
+
+    // Outlet
+    @IBOutlet var inputTextField: [UITextField]!
+    @IBOutlet weak var coverImageView: UIImageView!
+    
+    // Property
+    var book : [String : Any]?
+    let imagePicker = UIImagePickerController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        if book != nil {
+            inputTextField[0].text = book?["Title"] as? String
+            inputTextField[1].text = book?["Description"] as? String
+            // do more task
+        }
+        
+        imagePicker.delegate = self
     }
+    
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func saveAction(_ sender: Any) {
+        // loading indicatior
+        startAnimating( message: "Loading", type: NVActivityIndicatorType.ballClipRotatePulse)
+        
+        // NSDateFormatter 
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+       
+        let dateString = dateFormatter.string(from: Date())
+        print(dateString)
+        
+        let parameter = [
+            "Title": inputTextField[0].text ?? "",
+            "Description": inputTextField[1].text ?? "",
+            "PageCount": 100,
+            "Excerpt": "Example Excerpt",
+            "PublishDate": dateString
+        ] as [String : Any]
+        
+        var url = DataManager.Url.BOOK
+        var method = HTTPMethod.post
+        
+        if book != nil {
+            url = DataManager.Url.BOOK + "/\(book?["ID"] as! Int)"
+            method = HTTPMethod.put
+        }
+        
+        Alamofire.request(url,
+                          method: method,
+                          parameters: parameter,
+                          encoding: JSONEncoding.default,
+                          headers: DataManager.Url.HEADERS)
+            .responseJSON { (response) in
+                
+                self.stopAnimating()
+                if response.response?.statusCode == 200{
+                    print("\(method) success")
+                    _ = self.navigationController?.popViewController(animated: true)
+                }else{
+                    print("\(method) fail")
+                }
+        }
+        
+        
+        
+        
+        
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension AddEditInfoTableViewController{
+    
+    
+    @IBAction func browseImage(_ sender: Any) {
+        // confi property
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        
+        // show image picker
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // open image picker
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            coverImageView.contentMode = .scaleAspectFit
+            coverImageView.image = pickedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+}
+
+
+
+
+

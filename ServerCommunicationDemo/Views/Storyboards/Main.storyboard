@@ -85,8 +85,15 @@ marginally far upon excluding.</string>
                             <outlet property="delegate" destination="bsM-PS-hCI" id="Z01-XV-cJd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Home" id="fbx-eZ-nTu"/>
+                    <navigationItem key="navigationItem" title="Home" id="fbx-eZ-nTu">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="c8y-KH-849">
+                            <connections>
+                                <segue destination="gta-i3-KEm" kind="show" identifier="showEdit" id="Hfj-1e-y5J"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="wdt-zG-O1y">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
@@ -95,12 +102,12 @@ marginally far upon excluding.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgq-7T-fBt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1110" y="209.1549295774648"/>
+            <point key="canvasLocation" x="1129" y="42"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Detail Table View Controller-->
         <scene sceneID="WHX-mY-dHE">
             <objects>
-                <tableViewController id="Kpe-yR-7A7" sceneMemberID="viewController">
+                <tableViewController id="Kpe-yR-7A7" customClass="DetailTableViewController" customModule="ServerCommunicationDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="IdZ-Sn-yIg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -191,9 +198,9 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JH5-3G-6ye" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1894" y="209"/>
+            <point key="canvasLocation" x="1879" y="41"/>
         </scene>
-        <!--SIGN UP-->
+        <!--Add Article-->
         <scene sceneID="9yx-HS-SyS">
             <objects>
                 <tableViewController id="gta-i3-KEm" customClass="AddEditInfoTableViewController" customModule="ServerCommunicationDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -253,9 +260,13 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="141"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hV9-MO-22S">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hV9-MO-22S">
                                                     <rect key="frame" x="8" y="7" width="304" height="128"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <gestureRecognizers/>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="aBt-oF-IJB" appends="YES" id="AGp-ns-c2p"/>
+                                                    </connections>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -274,6 +285,9 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                                                     <state key="normal" title="Save">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="saveAction:" destination="gta-i3-KEm" eventType="touchUpInside" id="d9Q-Bu-gfg"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -286,11 +300,21 @@ Drinking vinegar beard deep v mlkshk, cornhole typewriter venmo selfies whatever
                             <outlet property="delegate" destination="gta-i3-KEm" id="eeM-oT-BcY"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="SIGN UP" id="2Be-MM-mYf"/>
+                    <navigationItem key="navigationItem" title="Add Article" id="2Be-MM-mYf"/>
+                    <connections>
+                        <outlet property="coverImageView" destination="hV9-MO-22S" id="CIS-yv-HfV"/>
+                        <outletCollection property="inputTextField" destination="REr-IV-tat" collectionClass="NSMutableArray" id="r3S-Y7-8Ys"/>
+                        <outletCollection property="inputTextField" destination="XJR-MT-rvA" collectionClass="NSMutableArray" id="cMT-nu-JbP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hye-OQ-gmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="aBt-oF-IJB">
+                    <connections>
+                        <action selector="browseImage:" destination="gta-i3-KEm" id="IWb-e9-bRK"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2595" y="208.09859154929578"/>
+            <point key="canvasLocation" x="2863" y="59"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kk9-fi-yca">

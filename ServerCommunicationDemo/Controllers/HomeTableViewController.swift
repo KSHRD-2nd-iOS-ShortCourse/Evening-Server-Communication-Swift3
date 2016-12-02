@@ -42,7 +42,7 @@ class HomeTableViewController: UITableViewController, NVActivityIndicatorViewabl
         
         
         //#1
-        Alamofire.request("http://fakerestapi.azurewebsites.net/api/Books").responseJSON { (response) in
+        Alamofire.request(DataManager.Url.BOOK).responseJSON { (response) in
             
             if let data = response.data {
                 // JSON Results
@@ -50,14 +50,14 @@ class HomeTableViewController: UITableViewController, NVActivityIndicatorViewabl
                 self.books = jsonObject.array
                 
                 //#2
-                Alamofire.request("http://fakerestapi.azurewebsites.net/api/CoverPhotos").responseJSON(completionHandler: { (response) in
+                Alamofire.request(DataManager.Url.COVER).responseJSON(completionHandler: { (response) in
                     if let bookCoverData = response.data{
                         // JSON Results
                         let bookCoverObject = JSON(data: bookCoverData)
                         self.coverPhotos = bookCoverObject.array
                         
                         //#3
-                        Alamofire.request("http://fakerestapi.azurewebsites.net/api/Authors").responseJSON(completionHandler: { (response) in
+                        Alamofire.request(DataManager.Url.AUTHOR).responseJSON(completionHandler: { (response) in
                             if let authorData = response.data{
                                 // JSON Results
                                 let authorObject = JSON(data: authorData)
@@ -73,15 +73,22 @@ class HomeTableViewController: UITableViewController, NVActivityIndicatorViewabl
         }
     }
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destinationViewController.
      // Pass the selected object to the new view controller.
+        if segue.identifier == "showEdit" {
+            let destView = segue.destination as! AddEditInfoTableViewController
+            destView.book = sender as? [String : Any]
+            
+        }else if segue.identifier == "showDetail" {
+            
+        }
      }
-     */
+    
 }
 
 
@@ -141,13 +148,49 @@ extension HomeTableViewController {
     }
     
     
-    /*
+    
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
      return true
      }
-     */
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, index) in
+            
+            let bookId = self.books[indexPath.section]["ID"]
+            
+            self.startAnimating()
+            Alamofire.request(DataManager.Url.BOOK + "\(bookId)", method: .delete).responseJSON(completionHandler: { (response) in
+                
+                if response.response?.statusCode == 200 {
+                    
+                    tableView.beginUpdates()
+                    // delete object in memory
+                    self.books.remove(at: indexPath.section)
+                    self.coverPhotos.remove(at: indexPath.section)
+                    self.authors.remove(at: indexPath.section)
+                    
+                    // delete section
+                    tableView.deleteSections(IndexSet(integer: indexPath.section), with: .fade)
+                    tableView.endUpdates()
+                    self.stopAnimating()
+                    
+                }
+            })
+        }
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, index) in
+            self.performSegue(withIdentifier: "showEdit", sender: self.books[indexPath.section].dictionaryObject)
+        }
+        
+        return [delete, edit]
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "showDetail", sender: self.books[indexPath.section].dictionaryObject)
+    }
+    
     
     /*
      // Override to support editing the table view.
